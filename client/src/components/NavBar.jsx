@@ -3,7 +3,7 @@ export default function NavBar() {
     <>
       <div className="navbar bg-primary text-primary-content">
         <div className="flex-1 mx-10">
-          <a className="btn btn-ghost text-xl">weightUP</a>
+          <a className="btn btn-ghost text-2xl text-white">CaloCare</a>
         </div>
         <div className="flex-none mx-10">
           <div className="dropdown dropdown-end">
