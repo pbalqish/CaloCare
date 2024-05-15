@@ -1,6 +1,7 @@
 const { User, Profile } = require("../models/index");
 const { compare } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
+const { OAuth2Client } = require("google-auth-library");
 
 class Controller {
   static async login(req, res, next) {
@@ -44,6 +45,38 @@ class Controller {
         message: "Registration successful",
         user: { fullName: profile.fullName, email: user.email },
       });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async googleLogin(req, res, next) {
+    try {
+      const { token } = req.headers;
+      const client = new OAuth2Client();
+
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+
+      const [user, created] = await User.findOrCreate({
+        where: {
+          username: payload.email,
+          password: "password",
+        },
+        hooks: false,
+      });
+
+      const accessToken = createToken({
+        id: user.id,
+        username: user.username,
+      });
+
+      res.status(200).json({ accessToken });
     } catch (error) {
       console.log(error);
       next(error);

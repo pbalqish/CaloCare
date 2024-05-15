@@ -1,4 +1,33 @@
-export default function LoginPage() {
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+
+export default function LoginPage({ url }) {
+  const navigate = useNavigate();
+
+  // async function handleSubmit(event) {
+  //   try {
+  //     //toastify
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  async function googleLogin(codeResponse) {
+    try {
+      const { data } = await axios.post(`${url}/google-login`, null, {
+        headers: {
+          token: codeResponse.credential,
+        },
+      });
+      localStorage.setItem("access_token", data.access_token);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      //tambah toastify
+    }
+  }
+
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
@@ -47,6 +76,10 @@ export default function LoginPage() {
                 <button className="btn btn-primary">Login</button>
               </div>
             </form>
+            <div className="divider divider-primary">OR</div>
+            <div className="flex justify-center my-4">
+              <GoogleLogin onSuccess={googleLogin} />
+            </div>
           </div>
         </div>
       </div>
