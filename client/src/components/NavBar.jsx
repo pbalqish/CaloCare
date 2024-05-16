@@ -1,4 +1,13 @@
+import { Link, useNavigate } from "react-router-dom";
+
 export default function NavBar() {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.clear();
+    navigate("/login");
+  }
+
   return (
     <>
       <div className="navbar bg-primary text-primary-content">
@@ -27,7 +36,7 @@ export default function NavBar() {
                 <a className="justify-between">My Profile</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>

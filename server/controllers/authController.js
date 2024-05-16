@@ -26,9 +26,9 @@ class Controller {
         email: user.email,
       };
 
-      const accessToken = signToken(payload);
+      const access_token = signToken(payload);
 
-      res.status(200).json({ accessToken });
+      res.status(200).json({ access_token });
     } catch (error) {
       console.log(error);
       next(error);
@@ -62,21 +62,26 @@ class Controller {
       });
 
       const payload = ticket.getPayload();
+      console.log(payload, "<<<< ini payload di controller");
 
       const [user, created] = await User.findOrCreate({
         where: {
-          username: payload.email,
+          email: payload.email,
+        },
+        defaults: {
+          email: payload.email,
           password: "password",
         },
         hooks: false,
       });
+      console.log(user, "<<<< ini user di controller");
 
-      const accessToken = createToken({
+      const access_token = signToken({
         id: user.id,
-        username: user.username,
+        email: user.email,
       });
 
-      res.status(200).json({ accessToken });
+      res.status(200).json({ access_token });
     } catch (error) {
       console.log(error);
       next(error);
