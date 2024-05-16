@@ -12,7 +12,12 @@ export default function NavBar() {
     <>
       <div className="navbar bg-primary text-primary-content">
         <div className="flex-1 mx-10">
-          <a className="btn btn-ghost text-2xl text-white">CaloCare</a>
+          <Link
+            to="/"
+            className="btn btn-ghost text-3xl text-white underline decoration-wavy"
+          >
+            CaloCare
+          </Link>
         </div>
         <div className="flex-none mx-10">
           <div className="dropdown dropdown-end">
@@ -33,7 +38,9 @@ export default function NavBar() {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">My Profile</a>
+                <Link to="/myprofile" className="justify-between">
+                  My Profile
+                </Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>

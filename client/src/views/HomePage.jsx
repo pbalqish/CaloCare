@@ -1,7 +1,9 @@
-export default function HomePage() {
+import MealPlan from "../components/MealPlan";
+
+export default function HomePage({ url }) {
   return (
     <>
-      <h1>hai balqis</h1>
+      <MealPlan />
     </>
   );
 }

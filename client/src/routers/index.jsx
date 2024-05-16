@@ -3,6 +3,7 @@ import LoginPage from "../views/LoginPage";
 import RegisterPage from "../views/RegisterPage";
 import BaseLayout from "../views/BaseLayout";
 import HomePage from "../views/HomePage";
+import ProfilePage from "../views/ProfilePage";
 import Toastify from "toastify-js";
 
 const url = "http://localhost:3000";
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage url={url} />,
+      },
+      {
+        path: "/myprofile",
+        element: <ProfilePage url={url} />,
       },
     ],
   },

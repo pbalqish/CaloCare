@@ -1,6 +1,6 @@
 const { OpenAI } = require("openai");
 
-async function handleOpenAI(fullName, gender, age, weight, height) {
+async function handleOpenAI(fullame, gender, age, weight, height) {
   const openai = new OpenAI({
     apiKey: process.env.OPEN_API_KEY,
   });
@@ -9,14 +9,20 @@ async function handleOpenAI(fullName, gender, age, weight, height) {
     messages: [
       {
         role: "system",
-        content: `Hello, my name is ${fullName}. I am ${age} years old, ${gender}, weighing ${weight} kg and with a height of ${height} cm. Is my weight normal?`,
+        content: `Please calculate BMI, with the following data: age ${age} years, gender ${gender}, weight ${weight} kg, height ${height} cm. The response must be a JSON, with format:
+        {
+        "fullName": "${fullame}",
+        "bmi":  "",
+        "bmi_category":  "",
+        "healthy_weight": "... - ..."
+        }`,
       },
     ],
     model: "gpt-3.5-turbo",
     response_format: { type: "json_object" },
   });
 
-  console.log(completion.choices[0]);
+  console.log(completion.choices[0].message.content);
 
   return completion.choices[0].message.content;
 }
