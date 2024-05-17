@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const upload = require("../utils/multer");
+const middlewareUpload = upload.single("image");
 
 const authController = require("../controllers/authController");
 const openaiController = require("../controllers/openaiController");

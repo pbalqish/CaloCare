@@ -7,6 +7,7 @@ import ProfilePage from "../views/ProfilePage";
 import Toastify from "toastify-js";
 
 const url = "http://localhost:3000";
+const FS_URL = "https://platform.fatsecret.com/rest/server.api";
 
 const router = createBrowserRouter([
   {
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage url={url} />,
+        element: <HomePage url={FS_URL} />,
       },
       {
         path: "/myprofile",
