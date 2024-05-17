@@ -3,12 +3,12 @@ const { User } = require("../models/index");
 
 const authentication = async (req, res, next) => {
   try {
-    const { auhorization } = req.headers;
-    if (!auhorization) {
+    const { authorization } = req.headers;
+    if (!authorization) {
       throw { name: "Unauthorized" };
     }
 
-    const token = auhorization.split(" ")[1];
+    const token = authorization.split(" ")[1];
     const payload = verifyToken(token);
     const user = await User.findOne({ where: { email: payload.email } });
 

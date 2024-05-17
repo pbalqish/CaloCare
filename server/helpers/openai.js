@@ -1,6 +1,6 @@
 const { OpenAI } = require("openai");
 
-async function handleOpenAI(fullame, gender, age, weight, height) {
+async function handleOpenAI(fullName, gender, age, weight, height) {
   const openai = new OpenAI({
     apiKey: process.env.OPEN_API_KEY,
   });
@@ -11,7 +11,7 @@ async function handleOpenAI(fullame, gender, age, weight, height) {
         role: "system",
         content: `Please calculate BMI, with the following data: age ${age} years, gender ${gender}, weight ${weight} kg, height ${height} cm. The response must be a JSON, with format:
         {
-        "fullName": "${fullame}",
+        "fullName": "${fullName}"
         "bmi":  "",
         "bmi_category":  "",
         "healthy_weight": "... - ..."
@@ -24,7 +24,7 @@ async function handleOpenAI(fullame, gender, age, weight, height) {
 
   console.log(completion.choices[0].message.content);
 
-  return completion.choices[0].message.content;
+  return JSON.parse(completion.choices[0].message.content);
 }
 
 module.exports = handleOpenAI;

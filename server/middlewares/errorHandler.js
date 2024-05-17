@@ -11,9 +11,20 @@ const errorHandler = (error, req, res, next) => {
     status = 401;
     message = "Invalid Email or Password";
   }
+
   if (error.name === "Unauthorized") {
     status = 401;
     message = "Login to continue";
+  }
+
+  if (error.name === "Forbidden") {
+    status = 403;
+    message = "You don't have any access";
+  }
+
+  if (error.name == "Not Found") {
+    status = 404;
+    message = `Data not found`;
   }
 
   if (

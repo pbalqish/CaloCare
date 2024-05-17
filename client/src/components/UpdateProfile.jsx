@@ -1,13 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function UpdateProfile() {
+import Toastify from "toastify-js";
+import axios from "axios";
+
+export default function UpdateProfile({ profile }) {
   const navigate = useNavigate();
+
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
+
+  useEffect(() => {
+    if (profile) {
+      setFullName(profile?.data?.fullName);
+      setGender(profile?.data?.gender);
+      setAge(profile?.data?.age);
+      setWeight(profile?.data?.weight);
+      setHeight(profile?.data?.height);
+    }
+  }, [profile]);
+
+  async function handleSubmit(event, fullName, gender, age, weight, height) {
+    event.preventDefault();
+    try {
+      const newData = {
+        fullName,
+        gender,
+        age: +age,
+        weight: +weight,
+        height: +height,
+      };
+
+      await axios.put(`http://localhost:3000/myprofile/update`, newData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.access_token}`,
+        },
+      });
+
+      Toastify({
+        text: "Successfully update data",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#7ABA78",
+        },
+      }).showToast();
+      navigate("/myprofile");
+    } catch (error) {
+      Toastify({
+        text: error.message,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "#A91D3A",
+        },
+      }).showToast();
+    }
+  }
+
   return (
     <>
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
@@ -20,7 +81,12 @@ export default function UpdateProfile() {
       <dialog id="my_modal_4" className="modal">
         <div className="modal-box w-11/12 max-w-5xl">
           <div className="flex m-auto justify-center w-full max-w-xl">
-            <form onSubmit={(event) => {}} className="card-body">
+            <form
+              onSubmit={(event) =>
+                handleSubmit(event, fullName, gender, age, weight, height)
+              }
+              className="card-body"
+            >
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Full Name</span>
@@ -81,10 +147,13 @@ export default function UpdateProfile() {
                   onChange={(event) => setHeight(event.target.value)}
                 />
               </div>
+              <button type="submit" className="btn btn-primary">
+                {" "}
+                Update
+              </button>
             </form>
           </div>
           <div className="modal-action">
-            <button className="btn btn-primary"> Update</button>
             <form method="dialog">
               {/* if there is a button, it will close the modal */}
               <button className="btn btn-secondary">Close</button>
