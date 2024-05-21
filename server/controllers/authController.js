@@ -62,7 +62,6 @@ class Controller {
       });
 
       const payload = ticket.getPayload();
-      console.log(payload, "<<<< ini payload di controller");
 
       const [user, created] = await User.findOrCreate({
         where: {
@@ -77,7 +76,6 @@ class Controller {
       if (created) {
         await Profile.create({ fullName: payload.name, UserId: user.id });
       }
-      console.log(user, "<<<< ini user di controller");
 
       const access_token = signToken({
         id: user.id,

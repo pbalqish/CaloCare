@@ -1,10 +1,9 @@
-const { where } = require("sequelize");
 const { Profile } = require("../models/index");
 
 class Controller {
   static async read(req, res, next) {
     try {
-      const { UserId, email } = req.userLogin;
+      const { UserId } = req.userLogin;
       const profile = await Profile.findByPk(UserId, {
         attributes: { exclude: ["createdAt", "updatedAt"] },
       });
@@ -20,7 +19,7 @@ class Controller {
 
   static async update(req, res, next) {
     try {
-      const { UserId, email } = req.userLogin;
+      const { UserId } = req.userLogin;
       let profile = await Profile.findOne({ where: { UserId } });
 
       if (!profile) {

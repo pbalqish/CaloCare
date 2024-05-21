@@ -4,7 +4,7 @@ const { Profile } = require("../models/index");
 class Controller {
   static async weightStatus(req, res, next) {
     try {
-      const { UserId, email } = req.userLogin;
+      const { UserId } = req.userLogin;
       const profile = await Profile.findByPk(UserId, {
         attributes: { exclude: ["createdAt", "updatedAt"] },
       });
@@ -13,6 +13,14 @@ class Controller {
       let resOpenAI = await openAI(fullName, gender, age, weight, height);
 
       res.status(200).json({ resOpenAI });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async mealPlan(req, res, next) {
+    try {
     } catch (error) {
       console.log(error);
       next(error);
